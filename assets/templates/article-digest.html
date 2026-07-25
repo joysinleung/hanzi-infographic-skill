@@ -1,0 +1,174 @@
+<!doctype html>
+<!--
+  布局模板：article-digest（文章导读长图）· hanzi-infographic-skill
+  专吃"公众号长文 / 技术文章 / 深度分析"：来源kicker + 大标题 + 一句话定调
+    + 核心逻辑链(flow) + 关键数据/表格 + 金句(quote) + 来源footer。
+  风格可选：<html data-theme="swiss-orange|pop-lab|morandi">（默认 swiss-orange）
+  墨方 IP：carry(搬运产出)/warn(警示废话)/gate(方法论守门)/log(记录金句) 随主题联动。
+  渲染：node scripts/render.cjs 本文件 输出.png [--theme=pop-lab]
+  本文件内置「仓颉蒸馏术」公众号文 fixture（真实，来自 output/公众号文章-仓颉蒸馏术.md）。
+-->
+<html lang="zh-CN" data-theme="swiss-orange">
+<head>
+<meta charset="utf-8">
+<title>文章导读 · 仓颉蒸馏术</title>
+<style>
+:root{
+  --sans-zh:"PingFang SC","Microsoft YaHei","Noto Sans SC",-apple-system,BlinkMacSystemFont,sans-serif;
+  --sans-en:"Helvetica Neue",Arial,"Segoe UI",sans-serif;
+  --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+}
+[data-theme="swiss-orange"]{
+  --paper:#fafaf8; --ink:#0a0a0a; --grey-1:#f0f0ee; --grey-2:#d4d4d2; --grey-3:#737373;
+  --accent:#ff6a13; --accent-on:#fff; --done:#1a7a3c; --warn:#e53935;
+  --mofang:#2d2926; --mofang-warn:#e53935;
+  --bg-pattern:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px);
+  --bg-size:24px 24px; --poster-radius:0; --coord-display:none;
+}
+[data-theme="pop-lab"]{
+  --paper:#eef1f5; --ink:#22303c; --grey-1:#e3e8ee; --grey-2:#b9c4cf; --grey-3:#5f6f7c;
+  --accent:#2f6db0; --accent-on:#fff; --done:#1f7a3c; --warn:#e91e63;
+  --mofang:#26323d; --mofang-warn:#e91e63;
+  --bg-pattern:radial-gradient(circle, rgba(47,109,176,.20) 1.4px, transparent 1.6px),linear-gradient(rgba(47,109,176,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(47,109,176,.10) 1px,transparent 1px);
+  --bg-size:22px 22px; --poster-radius:4px; --coord-display:block;
+}
+[data-theme="morandi"]{
+  --paper:#efeae3; --ink:#3a3a36; --grey-1:#e3ddd3; --grey-2:#cabfae; --grey-3:#857c6e;
+  --accent:#a8755e; --accent-on:#fff; --done:#5e7d52; --warn:#c0584b;
+  --mofang:#6b5b4f; --mofang-warn:#c0584b;
+  --bg-pattern:radial-gradient(circle at 30% 20%, rgba(168,117,94,.06), transparent 40%),radial-gradient(circle at 75% 80%, rgba(94,125,82,.06), transparent 40%);
+  --bg-size:auto; --poster-radius:14px; --coord-display:none;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:#1a1a1a;font-family:var(--sans-zh);color:var(--ink);-webkit-font-smoothing:antialiased;padding:48px 24px;}
+.sheet{display:flex;flex-direction:column;align-items:center;}
+.poster{position:relative;background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate;width:1080px;border-radius:var(--poster-radius);}
+.poster::before{content:"";position:absolute;inset:0;z-index:0;background-image:var(--bg-pattern);background-size:var(--bg-size);opacity:.9;pointer-events:none;}
+.content{position:relative;width:100%;z-index:2;padding:60px 68px;display:flex;flex-direction:column;}
+.kicker{font-family:var(--sans-en);font-weight:600;font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0;}
+.h-hero{font-family:var(--sans-zh);font-weight:700;font-size:62px;line-height:1.08;margin:10px 0 0;color:var(--ink);}
+.h-sub{font-family:var(--sans-zh);font-weight:400;font-size:23px;line-height:1.5;color:var(--grey-3);margin:14px 0 0;}
+.title-area{padding-bottom:24px;border-bottom:2px solid var(--ink);}
+.lead{display:flex;gap:16px;align-items:flex-start;margin-top:26px;border-left:4px solid var(--accent);padding-left:20px;}
+.lead p{font-family:var(--sans-zh);font-weight:400;font-size:19px;line-height:1.65;color:var(--ink);margin:0;}
+.block-title{font-family:var(--sans-zh);font-weight:700;font-size:28px;color:var(--ink);margin:40px 0 0;display:flex;align-items:center;gap:10px;}
+.block-title::before{content:attr(data-mod);display:var(--coord-display);font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:2px 6px;line-height:1;flex-shrink:0;}
+.anchor{display:inline-flex;width:32px;height:32px;flex-shrink:0;}
+.anchor svg{width:100%;height:100%;}
+/* 逻辑链 */
+.flow{display:flex;flex-direction:column;gap:12px;margin-top:18px;}
+.step{display:grid;grid-template-columns:46px 1fr;gap:16px;align-items:start;background:var(--grey-1);border:1px solid var(--grey-2);border-radius:12px;padding:16px 20px;position:relative;}
+.step .num{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-on);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:18px;flex-shrink:0;}
+.step .s-title{font-family:var(--sans-zh);font-weight:700;font-size:21px;color:var(--ink);margin:0;}
+.step .s-desc{font-family:var(--sans-zh);font-weight:400;font-size:16px;color:var(--grey-3);line-height:1.55;margin:5px 0 0;}
+.step.warn{border-color:var(--warn);}
+.step .anchor{position:absolute;top:14px;right:14px;}
+/* 表格 */
+.tbl{margin-top:16px;border:1.5px solid var(--grey-2);border-radius:12px;overflow:hidden;}
+.tbl-row{display:grid;grid-template-columns:120px 1fr;gap:0;border-top:1px solid var(--grey-2);}
+.tbl-row:first-child{border-top:none;}
+.tbl-row .k{font-family:var(--sans-zh);font-weight:700;font-size:16px;color:var(--ink);background:var(--grey-1);padding:13px 16px;border-right:1px solid var(--grey-2);}
+.tbl-row .v{font-family:var(--sans-zh);font-weight:400;font-size:16px;color:var(--grey-3);line-height:1.55;padding:13px 16px;}
+/* 关键数字条 */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px;}
+.stat{border:1.5px solid var(--grey-2);border-radius:12px;padding:16px;text-align:center;}
+.stat .big{font-family:var(--mono);font-weight:700;font-size:30px;color:var(--accent);}
+.stat .lab{font-family:var(--sans-zh);font-weight:400;font-size:14px;color:var(--grey-3);margin-top:6px;line-height:1.4;}
+/* 金句 */
+.quote{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:center;margin-top:22px;border:1.5px solid var(--grey-2);border-left:5px solid var(--accent);border-radius:12px;padding:20px 24px;background:var(--grey-1);}
+.quote .anchor{width:48px;height:48px;}
+.quote p{font-family:var(--sans-zh);font-weight:500;font-size:20px;line-height:1.6;color:var(--ink);margin:0;}
+.meta{margin-top:26px;border-top:1px solid var(--grey-2);padding-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;}
+.m-row{font-family:var(--sans-zh);font-size:15px;line-height:1.5;color:var(--grey-3);}
+.m-row b{color:var(--ink);font-weight:600;}
+.foot{font-family:var(--mono);font-weight:400;font-size:13px;letter-spacing:.06em;color:var(--grey-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--grey-2);display:flex;justify-content:space-between;}
+.mf-body{fill:var(--mofang);} .mf-grid{stroke:#fff;stroke-opacity:.25;} .mf-eye{fill:#fff;} .mf-pupil{fill:var(--mofang);} .mf-accent{fill:var(--accent);} .mf-warn{fill:var(--mofang-warn);}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mofang-carry" viewBox="0 0 48 48">
+    <rect class="mf-body" x="14" y="20" width="18" height="18" rx="5"/>
+    <path class="mf-grid" d="M14 27h18 M14 33h18 M21 20v18 M28 20v18" stroke-width="1"/>
+    <rect class="mf-eye" x="19" y="25" width="8" height="8" rx="1"/>
+    <rect class="mf-pupil" x="22" y="28" width="3" height="3"/>
+    <line x1="32" y1="29" x2="42" y2="15" stroke="var(--mofang)" stroke-width="2.5" stroke-linecap="round"/>
+    <rect class="mf-accent" x="38" y="6" width="11" height="13" rx="2"/>
+  </symbol>
+  <symbol id="mofang-warn" viewBox="0 0 48 48">
+    <rect class="mf-body" x="14" y="20" width="18" height="18" rx="5"/>
+    <path class="mf-grid" d="M14 27h18 M14 33h18 M21 20v18 M28 20v18" stroke-width="1"/>
+    <rect class="mf-eye" x="19" y="25" width="8" height="8" rx="1"/>
+    <rect class="mf-pupil" x="22" y="28" width="3" height="3"/>
+    <line x1="32" y1="29" x2="40" y2="13" stroke="var(--mofang)" stroke-width="2.5" stroke-linecap="round"/>
+    <rect class="mf-warn" x="36" y="4" width="11" height="9" rx="2"/>
+    <text x="41.5" y="11" font-family="Arial" font-size="8" fill="#fff" text-anchor="middle" font-weight="bold">!</text>
+  </symbol>
+  <symbol id="mofang-gate" viewBox="0 0 48 48">
+    <rect x="8" y="4" width="30" height="40" rx="6" fill="none" stroke="var(--mofang)" stroke-width="3"/>
+    <rect class="mf-body" x="14" y="14" width="30" height="30" rx="9"/>
+    <path class="mf-grid" d="M14 24h30 M14 34h30 M24 14v30 M34 14v30" stroke-width="1"/>
+    <rect class="mf-eye" x="23" y="19" width="14" height="14" rx="2"/>
+    <rect class="mf-pupil" x="27" y="23" width="5" height="5"/>
+  </symbol>
+  <symbol id="mofang-log" viewBox="0 0 48 48">
+    <rect class="mf-body" x="14" y="20" width="18" height="18" rx="5"/>
+    <path class="mf-grid" d="M14 27h18 M14 33h18 M21 20v18 M28 20v18" stroke-width="1"/>
+    <rect class="mf-eye" x="19" y="25" width="8" height="8" rx="1"/>
+    <rect class="mf-pupil" x="22" y="28" width="3" height="3"/>
+    <rect x="32" y="21" width="12" height="15" rx="2" fill="#fff" stroke="var(--mofang)" stroke-width="1.5"/>
+    <path d="M35 26h7 M35 30h7 M35 34h4" stroke="var(--mofang)" stroke-width="1"/>
+  </symbol>
+</svg>
+<main class="sheet"><section class="poster" id="cover"><div class="content">
+  <div class="title-area">
+    <p class="kicker">公众号 · AI 与红队蒸馏</p>
+    <h1 class="h-hero">仓颉蒸馏术</h1>
+    <p class="h-sub">把一本 300 页红队手册，压成 11 个 AI Agent 随叫随到的技能</p>
+  </div>
+
+  <div class="lead">
+    <p>用 <b>Codex + Cangjie-Skill（仓颉）</b>，把英国国防部《Red Teaming Handbook》全本硬核内容，精准沉淀成 <b>11 个红队心智与方法论 Skill</b>——不是摘要，是变成 Agent 随时能调用的"技能"。</p>
+  </div>
+
+  <div class="block-title" data-mod="MOD-01">核心逻辑链 <span class="anchor"><svg><use href="#mofang-carry"/></svg></span></div>
+  <div class="flow">
+    <div class="step"><span class="num">1</span><div><p class="s-title">干了什么</p><p class="s-desc">300 页手册 → 拆成 challenge-assumptions、phishing-simulation 等 11 个独立 Skill，用到哪个唤醒哪个，不再把整本书塞进上下文。</p></div></div>
+    <div class="step"><span class="num">2</span><div><p class="s-title">以前多烂</p><p class="s-desc">PDF 搜关键词只给页码、自己记笔记懒得翻、问模型容易凭印象乱补——三种老办法都低效。</p></div></div>
+    <div class="step warn"><span class="num">3</span><div><p class="s-title">Stage 1.5 常识过滤（最关键）</p><p class="s-desc">提取之前先删废话：删定义、删重复案例、删跑题故事、删"只讲是什么不讲怎么做"。300 页砍掉约 60%，剩 40% 才是真方法论。</p></div><span class="anchor"><svg><use href="#mofang-warn"/></svg></span></div>
+    <div class="step"><span class="num">4</span><div><p class="s-title">11 个 Skill 长什么样</p><p class="s-desc">每个是统一结构的 .md：Overview / When to Use / Methodology / Decision Framework / Checklist / Example / Common Pitfalls。</p></div></div>
+    <div class="step"><span class="num">5</span><div><p class="s-title">实测防钓鱼邮件</p><p class="s-desc">蒸馏完直接拿 phishing-simulation 实测：AI 用红队官思维框架分析心理弱点与认知偏差，而非扫关键词。</p></div></div>
+    <div class="step"><span class="num">6</span><div><p class="s-title">跟 book-to-skill 的区别</p><p class="s-desc">① Stage 1.5 先删废话再拆；② 方法论导向（跨章合并）而非按章节拆；③ 每个 Skill 生成后 5 项质量检查。</p></div></div>
+    <div class="step"><span class="num">7</span><div><p class="s-title">顺手做了插件</p><p class="s-desc">封装成 Codex 插件 Doc-to-Skill Distiller（MIT 开源，1193 行），任何文档都能一键转可调用的 Skill。</p></div></div>
+  </div>
+
+  <div class="block-title" data-mod="MOD-02">关键数字</div>
+  <div class="stat-row">
+    <div class="stat"><div class="big">300<span style="font-size:16px">页</span></div><div class="lab">原版红队手册</div></div>
+    <div class="stat"><div class="big">−60%</div><div class="lab">Stage 1.5 砍掉废话</div></div>
+    <div class="stat"><div class="big">11</div><div class="lab">产出方法论 Skill</div></div>
+    <div class="stat"><div class="big">1193</div><div class="lab">插件代码行数(MIT)</div></div>
+  </div>
+
+  <div class="block-title" data-mod="MOD-03">五阶段管道 <span class="anchor"><svg><use href="#mofang-gate"/></svg></span></div>
+  <div class="tbl">
+    <div class="tbl-row"><div class="k">管道</div><div class="v">文档 → 解析 → Stage 1.5 常识过滤 → 提取方法论 → 生成 Skill → 验证</div></div>
+    <div class="tbl-row"><div class="k">适合谁</div><div class="v">常啃技术书/论文/内部文档的人；培训师、安全团队、技术管理者——想让团队随时调用自己的方法论沉淀。</div></div>
+    <div class="tbl-row"><div class="k">定位</div><div class="v">不替代读书，更像是把一本书做成 Agent 里的"随手翻"——方法论、决策框架、检查清单收好，写方案少翻半天文档。</div></div>
+  </div>
+
+  <div class="quote">
+    <span class="anchor"><svg><use href="#mofang-log"/></svg></span>
+    <p>仓颉不仅在蒸馏一本书，它在把人类任何沉淀的文档，一键转化为 AI Agent 动态演练的超能力。</p>
+  </div>
+
+  <div class="meta">
+    <div class="m-row"><b>来源</b>：公众号原文《仓颉蒸馏术》（已爬取）</div>
+    <div class="m-row"><b>工具</b>：Codex + Cangjie-Skill · MacBook Pro M5 64G</div>
+    <div class="m-row"><b>产出</b>：11 个红队 Skill + Doc-to-Skill Distiller 插件</div>
+    <div class="m-row"><b>授权</b>：插件 MIT 开源</div>
+  </div>
+
+  <div class="foot"><span>WorkBuddy · hanzi-infographic-skill（墨方导读 · 自研）</span><span>2026.07.24</span></div>
+</div></section></main></body></html>

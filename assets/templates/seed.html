@@ -1,0 +1,117 @@
+<!doctype html>
+<!--
+  种子模板（seed）· hanzi-infographic-skill
+  通用样式源：主题变量 + 基础工具类 + 字体声明（100% 自写，规避 AGPL）。
+  用法：复制本文件（或某布局模板）为任务目录 index.html，填 <!-- CONTENT --> 区域，
+        设定 <html data-theme="...">。渲染见 SKILL.md 第 6 步。
+  字体：采用本地中文字体栈（PingFang SC / Microsoft YaHei / Noto Sans SC），确定性、不依赖网络。
+-->
+<html lang="zh-CN" data-theme="swiss-orange">
+<head>
+<meta charset="utf-8">
+<title>中文信息图 · 种子</title>
+<style>
+/* ===== 字体栈（本地优先，确定性） ===== */
+:root{
+  --sans-zh:"PingFang SC","Microsoft YaHei","Noto Sans SC",-apple-system,BlinkMacSystemFont,sans-serif;
+  --sans-en:"Helvetica Neue",Arial,"Segoe UI",sans-serif;
+  --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+}
+/* ===== 主题：swiss-orange（瑞士橙 · 默认） ===== */
+[data-theme="swiss-orange"]{
+  --paper:#fafaf8; --ink:#0a0a0a; --grey-1:#f0f0ee; --grey-2:#d4d4d2; --grey-3:#737373;
+  --accent:#ff6a13; --accent-on:#ffffff; --done:#1a7a3c; --warn:#e53935;
+}
+/* ===== 主题：pop-lab（实验室蓝图纸 · 借鉴 baoyu pop-laboratory MIT，自写） ===== */
+[data-theme="pop-lab"]{
+  --paper:#f2f2f2; --ink:#2d2926; --grey-1:#e8e8e6; --grey-2:#c9c9c6; --grey-3:#6b6b66;
+  --accent:#b8d8be; --accent-on:#1f3b27; --done:#1f7a3c; --warn:#e91e63;
+}
+/* ===== 主题：morandi（莫兰迪暖灰 · 借鉴 baoyu morandi-journal MIT，自写） ===== */
+[data-theme="morandi"]{
+  --paper:#efeae3; --ink:#3a3a36; --grey-1:#e3ddd3; --grey-2:#cabfae; --grey-3:#857c6e;
+  --accent:#a8755e; --accent-on:#fff; --done:#5e7d52; --warn:#c0584b;
+}
+/* ===== 基础重置 ===== */
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:#1a1a1a;font-family:var(--sans-zh);color:var(--ink);-webkit-font-smoothing:antialiased;padding:48px 24px;}
+/* ===== 画布 ===== */
+.sheet{display:flex;flex-direction:column;align-items:center;}
+.poster{position:relative;background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate;width:1080px;}
+.content{position:relative;width:100%;z-index:2;padding:64px 72px;display:flex;flex-direction:column;}
+/* ===== 标题区 ===== */
+.kicker{font-family:var(--sans-en);font-weight:600;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0;}
+.h-hero{font-family:var(--sans-zh);font-weight:700;font-size:86px;line-height:1.04;letter-spacing:-.01em;margin:0;color:var(--ink);}
+.h-sub{font-family:var(--sans-zh);font-weight:400;font-size:23px;line-height:1.5;color:var(--grey-3);margin:12px 0 0;}
+.title-area{padding-bottom:24px;border-bottom:2px solid var(--ink);margin-bottom:6px;}
+/* ===== 通用区块 ===== */
+.sec-label{font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:.08em;color:var(--accent);margin:0 0 12px;}
+.block-title{font-family:var(--sans-zh);font-weight:700;font-size:27px;color:var(--ink);margin:38px 0 0;display:flex;align-items:baseline;gap:10px;}
+.block-title .bt-sub{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);}
+/* 墨方点睛容器 */
+.anchor{display:inline-flex;width:34px;height:34px;flex-shrink:0;}
+.anchor svg{width:100%;height:100%;}
+/* ===== 三条主线 ===== */
+.sec-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:8px;}
+.sec-cell{border:1.5px solid var(--grey-2);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:5px;}
+.sc-name{font-family:var(--sans-zh);font-weight:700;font-size:21px;color:var(--ink);}
+.sc-desc{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);line-height:1.5;}
+/* ===== 时间线 ===== */
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:14px;}
+.tl-row{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:11px 0;border-top:1px solid var(--grey-2);}
+.tl-time{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--accent);}
+.tl-desc{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);line-height:1.5;}
+/* ===== 编号产出 ===== */
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;margin-top:18px;}
+.skill-row{display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;padding:11px 0;border-top:1px solid var(--grey-2);}
+.skill-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-on);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:14px;flex-shrink:0;}
+.skill-name{font-family:var(--sans-zh);font-weight:600;font-size:19px;color:var(--ink);margin:0;}
+.skill-ver{font-family:var(--sans-zh);font-weight:400;font-size:14px;color:var(--grey-3);margin:2px 0 0;line-height:1.4;}
+/* ===== 标签流 ===== */
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.tag{font-family:var(--sans-zh);font-weight:500;font-size:14px;color:var(--grey-3);border:1.4px solid var(--grey-2);border-radius:999px;padding:6px 13px;line-height:1.3;}
+.tag.hot{color:var(--accent);border-color:var(--accent);}
+/* ===== 双栏卡片 ===== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px;}
+.card{border:1.5px solid var(--grey-2);border-radius:12px;padding:16px 18px;}
+.card .c-head{font-family:var(--sans-zh);font-weight:700;font-size:19px;color:var(--ink);margin:0 0 8px;}
+.card .c-item{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);line-height:1.55;padding:5px 0;border-top:1px solid var(--grey-1);}
+.card .c-item:first-of-type{border-top:none;}
+.card .c-done{color:var(--done);font-weight:500;}
+/* ===== 关键决策 / 认知 ===== */
+.hl2{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;margin-top:14px;}
+.hl{display:flex;flex-direction:column;gap:0;}
+.hl-row{display:grid;grid-template-columns:38px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--grey-2);}
+.hl-num{font-family:var(--mono);font-weight:600;font-size:17px;color:var(--accent);}
+.hl-title{font-family:var(--sans-zh);font-weight:500;font-size:17px;line-height:1.45;color:var(--ink);}
+/* ===== 复盘感想 ===== */
+.feel{display:flex;flex-direction:column;gap:0;margin-top:14px;}
+.feel-row{display:grid;grid-template-columns:24px 1fr;gap:14px;padding:11px 0;border-top:1px solid var(--grey-2);}
+.feel-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:8px;}
+.feel-title{font-family:var(--sans-zh);font-weight:400;font-size:16px;line-height:1.5;color:var(--ink);}
+/* ===== 优先级三栏 ===== */
+.prio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px;}
+.prio-col{border:1.5px solid var(--grey-2);border-radius:12px;padding:14px 16px;position:relative;}
+.prio-col .p-head{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--accent);margin:0 0 8px;letter-spacing:.05em;}
+.prio-col .p-item{font-family:var(--sans-zh);font-weight:400;font-size:14px;color:var(--grey-3);line-height:1.5;padding:5px 0;border-top:1px solid var(--grey-1);}
+.prio-col .p-item:first-of-type{border-top:none;}
+.prio-col.warn{border-color:var(--warn);}
+.prio-col.warn .p-head{color:var(--warn);}
+/* ===== 结语 + 页脚 ===== */
+.quote{font-family:var(--sans-zh);font-weight:400;font-size:18px;line-height:1.6;color:var(--grey-3);margin:18px 0 0;border-left:4px solid var(--accent);padding-left:18px;}
+.foot{font-family:var(--mono);font-weight:400;font-size:14px;letter-spacing:.06em;color:var(--grey-3);margin-top:36px;padding-top:20px;border-top:1px solid var(--grey-2);display:flex;justify-content:space-between;}
+</style>
+</head>
+<body><main class="sheet">
+<!-- CONTENT：把下面的 .content 块替换为实际内容 -->
+<section class="poster" id="cover">
+<div class="content">
+  <div class="title-area">
+    <p class="kicker">DAILY REVIEW · 标题</p>
+    <h1 class="h-hero">主标题</h1>
+    <p class="h-sub">副标题 · 日期 · 一句话定性</p>
+  </div>
+  <p class="block-title">示例区块 <span class="bt-sub">右侧可放墨方点睛</span> <span class="anchor"><!-- 墨方 SVG --></span></p>
+</div>
+</section></main></body></html>

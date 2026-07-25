@@ -1,0 +1,327 @@
+<!doctype html>
+<!--
+  布局模板：daily-review-panorama（复盘全景）· hanzi-infographic-skill
+  内置 2026-07-23 完整数据，作为 MVP 端到端验证 fixture。
+  风格可选：<html data-theme="swiss-orange|pop-lab|morandi"> 三套真切换（变量+结构装饰+墨方配色联动）。
+  墨方 IP（自创，非小黑）：inline <symbol> + <use>，在重点板块承担动作（carry/warn/gate/log）。
+  渲染：node scripts/render.cjs 本文件 输出.png [--theme=pop-lab]
+-->
+<html lang="zh-CN" data-theme="swiss-orange">
+<head>
+<meta charset="utf-8">
+<title>海哥每日复盘全景 2026-07-23</title>
+<style>
+:root{
+  --sans-zh:"PingFang SC","Microsoft YaHei","Noto Sans SC",-apple-system,BlinkMacSystemFont,sans-serif;
+  --sans-en:"Helvetica Neue",Arial,"Segoe UI",sans-serif;
+  --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+}
+/* ============================================================
+   主题一：swiss-orange（瑞士脉冲 · 默认）
+   米白纸 + 黑字 + 单一高饱和橙；细网格底；硬切无装饰
+   ============================================================ */
+[data-theme="swiss-orange"]{
+  --paper:#fafaf8; --ink:#0a0a0a; --grey-1:#f0f0ee; --grey-2:#d4d4d2; --grey-3:#737373;
+  --accent:#ff6a13; --accent-on:#ffffff; --done:#1a7a3c; --warn:#e53935;
+  --mofang:#2d2926; --mofang-warn:#e53935;
+  --bg-pattern:
+    linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px);
+  --bg-size:24px 24px;
+  --poster-radius:0;
+  --coord-display:none;
+  --border-handdrawn:0;
+}
+/* ============================================================
+   主题二：pop-lab（实验室蓝图纸 · 借鉴 baoyu pop-laboratory MIT，自写）
+   冷灰蓝纸 + 蓝图纸方格点阵 + 坐标编号 MOD-01… + 荧光粉警示
+   ============================================================ */
+[data-theme="pop-lab"]{
+  --paper:#eef1f5; --ink:#22303c; --grey-1:#e3e8ee; --grey-2:#b9c4cf; --grey-3:#5f6f7c;
+  --accent:#2f6db0; --accent-on:#ffffff; --done:#1f7a3c; --warn:#e91e63;
+  --mofang:#26323d; --mofang-warn:#e91e63;
+  --bg-pattern:
+    radial-gradient(circle, rgba(47,109,176,.20) 1.4px, transparent 1.6px),
+    linear-gradient(rgba(47,109,176,.10) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(47,109,176,.10) 1px,transparent 1px);
+  --bg-size:22px 22px;
+  --poster-radius:4px;
+  --coord-display:block;
+  --border-handdrawn:0;
+}
+/* ============================================================
+   主题三：morandi（莫兰迪暖灰 · 借鉴 baoyu morandi-journal MIT，自写）
+   暖灰纸 + 低饱和棕橙 + 手绘感不规则边角 + 纸纹
+   ============================================================ */
+[data-theme="morandi"]{
+  --paper:#efeae3; --ink:#3a3a36; --grey-1:#e3ddd3; --grey-2:#cabfae; --grey-3:#857c6e;
+  --accent:#a8755e; --accent-on:#fff; --done:#5e7d52; --warn:#c0584b;
+  --mofang:#6b5b4f; --mofang-warn:#c0584b;
+  --bg-pattern:
+    radial-gradient(circle at 30% 20%, rgba(168,117,94,.06), transparent 40%),
+    radial-gradient(circle at 75% 80%, rgba(94,125,82,.06), transparent 40%);
+  --bg-size:auto;
+  --poster-radius:14px;
+  --coord-display:none;
+  --border-handdrawn:1;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:#1a1a1a;font-family:var(--sans-zh);color:var(--ink);-webkit-font-smoothing:antialiased;padding:48px 24px;}
+.sheet{display:flex;flex-direction:column;align-items:center;}
+.poster{
+  position:relative;background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate;
+  width:1080px;border-radius:var(--poster-radius);
+}
+.poster::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background-image:var(--bg-pattern);background-size:var(--bg-size);opacity:.9;pointer-events:none;
+}
+.content{position:relative;width:100%;z-index:2;padding:64px 72px;display:flex;flex-direction:column;}
+.kicker{font-family:var(--sans-en);font-weight:600;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0;}
+.h-hero{font-family:var(--sans-zh);font-weight:700;font-size:86px;line-height:1.04;letter-spacing:-.01em;margin:0;color:var(--ink);}
+.h-sub{font-family:var(--sans-zh);font-weight:400;font-size:23px;line-height:1.5;color:var(--grey-3);margin:12px 0 0;}
+.title-area{padding-bottom:24px;border-bottom:2px solid var(--ink);margin-bottom:6px;}
+.sec-label{font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:.08em;color:var(--accent);margin:0 0 12px;}
+/* 坐标编号（pop-lab 风格显示） */
+.block-title{font-family:var(--sans-zh);font-weight:700;font-size:27px;color:var(--ink);margin:38px 0 0;display:flex;align-items:center;gap:10px;}
+.block-title::before{
+  content:attr(data-mod);display:var(--coord-display);
+  font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:4px;padding:2px 6px;line-height:1;flex-shrink:0;
+}
+.block-title .bt-sub{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);}
+/* 墨方点睛容器 */
+.anchor{display:inline-flex;width:34px;height:34px;flex-shrink:0;}
+.anchor svg{width:100%;height:100%;}
+/* 手绘感边角（morandi） */
+[data-theme="morandi"] .sec-cell,
+[data-theme="morandi"] .card,
+[data-theme="morandi"] .prio-col{
+  border-radius:13px 9px 15px 10px;
+}
+.sec-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:8px;}
+.sec-cell{border:1.5px solid var(--grey-2);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:5px;position:relative;}
+.sc-name{font-family:var(--sans-zh);font-weight:700;font-size:21px;color:var(--ink);}
+.sc-desc{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);line-height:1.5;}
+.sec-cell .anchor{position:absolute;top:12px;right:12px;width:28px;height:28px;opacity:.92;}
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:14px;}
+.tl-row{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:11px 0;border-top:1px solid var(--grey-2);}
+.tl-time{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--accent);}
+.tl-desc{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);line-height:1.5;}
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;margin-top:18px;}
+.skill-row{display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;padding:11px 0;border-top:1px solid var(--grey-2);}
+.skill-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-on);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:14px;flex-shrink:0;}
+.skill-name{font-family:var(--sans-zh);font-weight:600;font-size:19px;color:var(--ink);margin:0;}
+.skill-ver{font-family:var(--sans-zh);font-weight:400;font-size:14px;color:var(--grey-3);margin:2px 0 0;line-height:1.4;}
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.tag{font-family:var(--sans-zh);font-weight:500;font-size:14px;color:var(--grey-3);border:1.4px solid var(--grey-2);border-radius:999px;padding:6px 13px;line-height:1.3;}
+.tag.hot{color:var(--accent);border-color:var(--accent);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px;}
+.card{border:1.5px solid var(--grey-2);border-radius:12px;padding:16px 18px;}
+.card .c-head{font-family:var(--sans-zh);font-weight:700;font-size:19px;color:var(--ink);margin:0 0 8px;}
+.card .c-item{font-family:var(--sans-zh);font-weight:400;font-size:15px;color:var(--grey-3);line-height:1.55;padding:5px 0;border-top:1px solid var(--grey-1);}
+.card .c-item:first-of-type{border-top:none;}
+.card .c-done{color:var(--done);font-weight:500;}
+.hl2{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;margin-top:14px;}
+.hl{display:flex;flex-direction:column;gap:0;}
+.hl-row{display:grid;grid-template-columns:38px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--grey-2);}
+.hl-num{font-family:var(--mono);font-weight:600;font-size:17px;color:var(--accent);}
+.hl-title{font-family:var(--sans-zh);font-weight:500;font-size:17px;line-height:1.45;color:var(--ink);}
+.feel{display:flex;flex-direction:column;gap:0;margin-top:14px;}
+.feel-row{display:grid;grid-template-columns:24px 1fr;gap:14px;padding:11px 0;border-top:1px solid var(--grey-2);}
+.feel-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:8px;}
+.feel-title{font-family:var(--sans-zh);font-weight:400;font-size:16px;line-height:1.5;color:var(--ink);}
+.prio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px;}
+.prio-col{border:1.5px solid var(--grey-2);border-radius:12px;padding:14px 16px;position:relative;}
+.prio-col .p-head{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--accent);margin:0 0 8px;letter-spacing:.05em;}
+.prio-col .p-item{font-family:var(--sans-zh);font-weight:400;font-size:14px;color:var(--grey-3);line-height:1.5;padding:5px 0;border-top:1px solid var(--grey-1);}
+.prio-col .p-item:first-of-type{border-top:none;}
+.prio-col.warn{border-color:var(--warn);}
+.prio-col.warn .p-head{color:var(--warn);}
+.quote{font-family:var(--sans-zh);font-weight:400;font-size:18px;line-height:1.6;color:var(--grey-3);margin:18px 0 0;border-left:4px solid var(--accent);padding-left:18px;}
+.foot{font-family:var(--mono);font-weight:400;font-size:14px;letter-spacing:.06em;color:var(--grey-3);margin-top:36px;padding-top:20px;border-top:1px solid var(--grey-2);display:flex;justify-content:space-between;}
+/* 墨方 symbol 内配色随主题联动 */
+.mf-body{fill:var(--mofang);}
+.mf-grid{stroke:#ffffff;stroke-opacity:.25;}
+.mf-eye{fill:#fff;}
+.mf-pupil{fill:var(--mofang);}
+.mf-accent{fill:var(--accent);}
+.mf-warn{fill:var(--mofang-warn);}
+</style>
+</head>
+<body>
+<!-- 墨方 IP（自创：圆角方块身+单方块眼+网格纹，非小黑）· 4 动作原子，配色随主题联动 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mofang-carry" viewBox="0 0 48 48">
+    <rect class="mf-body" x="14" y="20" width="18" height="18" rx="5"/>
+    <path class="mf-grid" d="M14 27h18 M14 33h18 M21 20v18 M28 20v18" stroke-width="1"/>
+    <rect class="mf-eye" x="19" y="25" width="8" height="8" rx="1"/>
+    <rect class="mf-pupil" x="22" y="28" width="3" height="3"/>
+    <line x1="32" y1="29" x2="42" y2="15" stroke="var(--mofang)" stroke-width="2.5" stroke-linecap="round"/>
+    <rect class="mf-accent" x="38" y="6" width="11" height="13" rx="2"/>
+  </symbol>
+  <symbol id="mofang-warn" viewBox="0 0 48 48">
+    <rect class="mf-body" x="14" y="20" width="18" height="18" rx="5"/>
+    <path class="mf-grid" d="M14 27h18 M14 33h18 M21 20v18 M28 20v18" stroke-width="1"/>
+    <rect class="mf-eye" x="19" y="25" width="8" height="8" rx="1"/>
+    <rect class="mf-pupil" x="22" y="28" width="3" height="3"/>
+    <line x1="32" y1="29" x2="40" y2="13" stroke="var(--mofang)" stroke-width="2.5" stroke-linecap="round"/>
+    <rect class="mf-warn" x="36" y="4" width="11" height="9" rx="2"/>
+    <text x="41.5" y="11" font-family="Arial" font-size="8" fill="#fff" text-anchor="middle" font-weight="bold">!</text>
+  </symbol>
+  <symbol id="mofang-gate" viewBox="0 0 48 48">
+    <rect x="8" y="4" width="30" height="40" rx="6" fill="none" stroke="var(--mofang)" stroke-width="3"/>
+    <rect class="mf-body" x="14" y="14" width="30" height="30" rx="9"/>
+    <path class="mf-grid" d="M14 24h30 M14 34h30 M24 14v30 M34 14v30" stroke-width="1"/>
+    <rect class="mf-eye" x="23" y="19" width="14" height="14" rx="2"/>
+    <rect class="mf-pupil" x="27" y="23" width="5" height="5"/>
+  </symbol>
+  <symbol id="mofang-log" viewBox="0 0 48 48">
+    <rect class="mf-body" x="14" y="20" width="18" height="18" rx="5"/>
+    <path class="mf-grid" d="M14 27h18 M14 33h18 M21 20v18 M28 20v18" stroke-width="1"/>
+    <rect class="mf-eye" x="19" y="25" width="8" height="8" rx="1"/>
+    <rect class="mf-pupil" x="22" y="28" width="3" height="3"/>
+    <rect x="32" y="21" width="12" height="15" rx="2" fill="#fff" stroke="var(--mofang)" stroke-width="1.5"/>
+    <path d="M35 26h7 M35 30h7 M35 34h4" stroke="var(--mofang)" stroke-width="1"/>
+  </symbol>
+</svg>
+<main class="sheet">
+<section class="poster" id="cover">
+<div class="content">
+  <div class="title-area">
+    <p class="kicker">DAILY REVIEW · 海哥每日复盘全景</p>
+    <h1 class="h-hero">07-23 复盘</h1>
+    <p class="h-sub">周四 · 00:00–23:55 · 三线大爆发日（跨夜到深夜，强度拉满一日）</p>
+  </div>
+
+  <p class="sec-label">三条主线 <span class="anchor"><svg><use href="#mofang-carry"/></svg></span></p>
+  <div class="sec-grid">
+    <div class="sec-cell"><span class="anchor"><svg><use href="#mofang-carry"/></svg></span><span class="sc-name">Skill 工程化</span><span class="sc-desc">一天新建/上架 5 个 Skill，自研标准落成：完成判据 + 触发判定书 + 产出验收闭环</span></div>
+    <div class="sec-cell"><span class="anchor"><svg><use href="#mofang-carry"/></svg></span><span class="sc-name">AI 安全内容</span><span class="sc-desc">3 起真实事件 → 3 篇爆款文案 + 2 支 MP4 + 多套配图，内容流水线可复用</span></div>
+    <div class="sec-cell"><span class="anchor"><svg><use href="#mofang-carry"/></svg></span><span class="sc-name">体系升级</span><span class="sc-desc">晨报升第五版情报中枢 · AI研究 114 文件归 10 类 · 启动 Pensieve 式记忆治理</span></div>
+  </div>
+
+  <p class="block-title" data-mod="MOD-02">全天时间线 <span class="bt-sub">5 个时段 · 跨夜到深夜</span></p>
+  <div class="timeline">
+    <div class="tl-row"><span class="tl-time">00:00–03:19</span><span class="tl-desc">ai-agent-video / fastjson-video 发视频号 · 深夜收灵感 · Matt Pocock 方法论提炼 · 3 skill 改造+上架尝试（401）</span></div>
+    <div class="tl-row"><span class="tl-time">07:41–10:35</span><span class="tl-desc">SkillHub 纠正 skillhub.cn 跑通 · 5 skill 上架/发布 · Qwen-Image 3.0 实测 · AI研究目录归 10 类（零断链）</span></div>
+    <div class="tl-row"><span class="tl-time">10:50–13:00</span><span class="tl-desc">agent-security-check 创建+验证 · 2 支安全 MP4 · 3D 虚拟形象主页立项 · 待办总索引（30+ 项）</span></div>
+    <div class="tl-row"><span class="tl-time">13:13–17:33</span><span class="tl-desc">晨报第五版情报中枢 · 银狐/淘金爆款文案 · Violin 实测跑不通果断砍掉</span></div>
+    <div class="tl-row"><span class="tl-time">18:03–23:55</span><span class="tl-desc">越狱入侵 HF 文案+agnes 配图 · Anthropic 源码泄露 · 0DIN=Garak · Pensieve 记忆治理 · 聊天记录备份</span></div>
+  </div>
+
+  <p class="block-title" data-mod="MOD-03">关键产出 · 新建 5 个 Skill <span class="bt-sub">+ 3 个既有上架 SkillHub</span> <span class="anchor"><svg><use href="#mofang-carry"/></svg></span></p>
+  <div class="skill-grid">
+    <div class="skill-row"><span class="skill-num">1</span><div><p class="skill-name">skill-health-checker</p><p class="skill-ver">v1.1.0 · Skill 质量体检元技能（GitHub+SkillHub 110522）</p></div></div>
+    <div class="skill-row"><span class="skill-num">2</span><div><p class="skill-name">long-video-deep-study</p><p class="skill-ver">v0.2.0 · 长视频深度学习（自测 100/100）</p></div></div>
+    <div class="skill-row"><span class="skill-num">3</span><div><p class="skill-name">agent-security-check</p><p class="skill-ver">v1.0.0 · Agent 部署 5 层安全自检（今已升 v2）</p></div></div>
+    <div class="skill-row"><span class="skill-num">4</span><div><p class="skill-name">docx-pptx-verify</p><p class="skill-ver">v1.0.0 · 文档产出渲染验收闭环</p></div></div>
+    <div class="skill-row"><span class="skill-num">5</span><div><p class="skill-name">memory-daily-consolidate</p><p class="skill-ver">每日智慧整合 · 挂晨报 00:10 调度</p></div></div>
+    <div class="skill-row"><span class="skill-num">+</span><div><p class="skill-name">既有 Skill 上架</p><p class="skill-ver">agnes-ai-skill(110508) / index-tts2(110509) / video-understand（在架）</p></div></div>
+  </div>
+
+  <p class="block-title" data-mod="MOD-04">内容 & 体系产出 <span class="anchor"><svg><use href="#mofang-gate"/></svg></span></p>
+  <div class="tag-row">
+    <span class="tag">2 支 AI 安全 MP4（IndexTTS2 声纹+HyperFrames）</span>
+    <span class="tag">4 篇爆款文案（银狐/Anthropic泄露/越狱入侵HF/GitHub淘金）</span>
+    <span class="tag">agnes 6 图 + SVG 9 图</span>
+    <span class="tag">晨报第五版（11 板块情报中枢）</span>
+    <span class="tag">待办总索引（30+ 项）</span>
+    <span class="tag">AI研究 10 分类归位</span>
+    <span class="tag hot">0DIN=Garak 二开基座（P20260711-001）</span>
+    <span class="tag hot">3D 虚拟形象主页概念立项</span>
+    <span class="tag">7-22 复盘全景图 PNG（2560×4432）</span>
+    <span class="tag">2 支流水线视频确认上视频号</span>
+  </div>
+
+  <p class="block-title" data-mod="MOD-05">公司工作 & 个人项目</p>
+  <div class="two-col">
+    <div class="card">
+      <p class="c-head">公司工作</p>
+      <div class="c-item c-done">✅ 青秀支行→南宁分行专线约 5 分钟瞬断（23:26–23:31，自动恢复，纳入观察）</div>
+      <div class="c-item c-done">✅ 开通全行业务服务器网段访问 Graylog 日志服务器网络策略（含私有云 ARM 架构虚拟防火墙）</div>
+      <div class="c-item c-done">✅ 完成电信网络专线框架协议续签事宜沟通</div>
+      <div class="c-item c-done">✅ 更新第三方外联专线护理情况表</div>
+      <div class="c-item c-done">✅ 第二次信息化需求现场交流会问题记录表反馈</div>
+      <div class="c-item c-done">✅ APT 态势感知平台告警处置（测试环境 mavon 仓库敏感目录探测告警）</div>
+    </div>
+    <div class="card">
+      <p class="c-head">个人项目</p>
+      <div class="c-item">0DIN AI Scanner = Garak 二开 Web 层基座（Apache 2.0）：fork 底座 + 中文探针/本地模型/SIEM 二开</div>
+      <div class="c-item">3D 虚拟形象主页概念立项：四阶段（Meshy 头像→GSAP 镜头→记忆库驱动→空间多房间）</div>
+      <div class="c-item">克隆研读留档：scroll-world / kangarooking-skills / video-shotcraft（Violin、Unlimited-OCR 实测后清理）</div>
+    </div>
+  </div>
+
+  <p class="block-title" data-mod="MOD-06">AI 研究 <span class="bt-sub">5 个方向</span> <span class="anchor"><svg><use href="#mofang-gate"/></svg></span></p>
+  <div class="tag-row">
+    <span class="tag">Skill 工程方法论（Matt Pocock + Anthropic 官方）</span>
+    <span class="tag">Qwen-Image 3.0 实测（12 案例+4 技巧+对比表）</span>
+    <span class="tag hot">AI 安全深研（越狱/银狐/FastJSON QVD-2026-43021/Anthropic 泄露）</span>
+    <span class="tag">架构深研（Pensieve/PraisonAI/LLM Wiki/CodeGraph）</span>
+    <span class="tag">AI研究目录治理（114 文件→10 类+分类索引）</span>
+  </div>
+
+  <p class="block-title" data-mod="MOD-07">灵感墙 <span class="bt-sub">主灵感 26 条 + 生活记录 9 条</span></p>
+  <div class="tag-row">
+    <span class="tag">CLI-Anything</span><span class="tag">video-shotcraft</span><span class="tag">worldmonitor</span><span class="tag">3D虚拟形象主页</span><span class="tag">LLM Wiki</span><span class="tag">meta-skills</span><span class="tag">量化ML清单</span><span class="tag">PraisonAI</span><span class="tag">张咋啦AI简报</span><span class="tag">Miora+滚动动效</span><span class="tag">银狐木马</span><span class="tag">梁文锋DeepSeek</span><span class="tag">GitHub淘金三法</span><span class="tag">skills.sh趋势榜</span><span class="tag">Violin+前端Skill</span><span class="tag">claw-code</span><span class="tag">OpenAI越狱入侵HF</span><span class="tag">GitHub精选社区</span><span class="tag">CodeGraph</span><span class="tag">Anthropic官方skills</span><span class="tag">0DIN</span><span class="tag">image-to-editable-ppt</span><span class="tag">Grok Build+沐阳动画</span><span class="tag">Pensieve+PentestCode</span><span class="tag">Unlimited OCR</span>
+  </div>
+  <div class="tag-row">
+    <span class="tag">吴恩达谈中国AI开放</span><span class="tag">5K显示器选购</span><span class="tag">专注解决问题心态</span><span class="tag">prompts.chat/kids 儿童prompt课</span><span class="tag">aimoneyhunter AI副业集</span><span class="tag">Anthropic泄露</span><span class="tag">睡前故事卖年卡</span><span class="tag">ChatGPT Work免费VM</span><span class="tag">X策展站</span>
+  </div>
+
+  <p class="block-title" data-mod="MOD-08">关键决策 / 认知 <span class="bt-sub">8 条全收录</span> <span class="anchor"><svg><use href="#mofang-log"/></svg></span></p>
+  <div class="hl2">
+    <div class="hl">
+      <div class="hl-row"><span class="hl-num">01</span><span class="hl-title">SkillHub 真平台是 skillhub.cn（早期误搜 .wtf 致 401）→ 发布/改名/删除流程全跑通</span></div>
+      <div class="hl-row"><span class="hl-num">02</span><span class="hl-title">agent-security-check 独立成 skill，与 health-check 形成「质量→安全」双门禁</span></div>
+      <div class="hl-row"><span class="hl-num">03</span><span class="hl-title">产出后验收闭环是自研 Skill 普遍缺的关键层（docx-pptx-verify 补齐）</span></div>
+      <div class="hl-row"><span class="hl-num">04</span><span class="hl-title">无 ImageGen → 改 SVG 矢量配图，文生图走 agnes-ai（Key 运行时内联）</span></div>
+    </div>
+    <div class="hl">
+      <div class="hl-row"><span class="hl-num">05</span><span class="hl-title">0DIN 战略：别从零造 Web 层，fork 成熟基座 + 差异化二开</span></div>
+      <div class="hl-row"><span class="hl-num">06</span><span class="hl-title">记忆库是「文件系统」非「数据库」：Pensieve 照出三短板，加轻量治理层</span></div>
+      <div class="hl-row"><span class="hl-num">07</span><span class="hl-title">护栏≠边界（越狱入侵 HF）→ 纵深防御才是可靠边界，作安全 skill 理论依据</span></div>
+      <div class="hl-row"><span class="hl-num">08</span><span class="hl-title">跑不通就砍的决断力：Violin 缺 key / Unlimited-OCR 绑 CUDA 实测即清场</span></div>
+    </div>
+  </div>
+
+  <p class="block-title" data-mod="MOD-09">复盘感想 <span class="bt-sub">3 点 + 注意项</span> <span class="anchor"><svg><use href="#mofang-log"/></svg></span></p>
+  <div class="feel">
+    <div class="feel-row"><span class="feel-dot"></span><span class="feel-title">方法论转化为资产：把 Matt Pocock / Anthropic 的 skill 工程范式，一天落成 5 个新 skill——从「能做出来」到「做得规范、可交付」的质变。</span></div>
+    <div class="feel-row"><span class="feel-dot"></span><span class="feel-title">AI 安全成为个人内容护城河：三起真实事件 → 三篇科普 + 两支视频，验证「事件→文案→视频」流水线可复用，契合专业身份。</span></div>
+    <div class="feel-row"><span class="feel-dot"></span><span class="feel-title">克制与决断：灵感 26+ 守住「先沉淀、不强行课程化」；跑不通的果断清场，避免资产库积垃圾。</span></div>
+    <div class="feel-row"><span class="feel-dot"></span><span class="feel-title">⚠️ 注意：待办累积速度——今天新增 5+ skill 待办、多篇文案待发、多仓库待研，靠「待办总索引」持续收口，避免灵感变负债。</span></div>
+  </div>
+
+  <p class="block-title" data-mod="MOD-10">后续建议 <span class="bt-sub">P0 / P1 / P2</span> <span class="anchor"><svg><use href="#mofang-warn"/></svg></span></p>
+  <div class="prio">
+    <div class="prio-col warn">
+      <p class="p-head">P0 · 尽快</p>
+      <div class="p-item">SkillHub 旧 slug 网页后台删除</div>
+      <div class="p-item">3 个新 skill 真实场景复用实测</div>
+      <div class="p-item">青秀支行专线波动观察 + 入 Syslog/Graylog 告警</div>
+      <div class="p-item">FastJSON QVD-2026-43021（CVSS 9.8）监控 + 银行系统自查 ≤1.2.83</div>
+    </div>
+    <div class="prio-col">
+      <p class="p-head">P1 · 本周</p>
+      <div class="p-item">0DIN fork 作 Garak 二开底座 PoC</div>
+      <div class="p-item">记忆治理 P0 三项落地（④⑥⑦）</div>
+      <div class="p-item">三闸门协议移植 agnes 配图流程</div>
+      <div class="p-item">3 篇 AI 安全科普配图 + 发布</div>
+      <div class="p-item">3D 虚拟形象主页 P1 原型</div>
+    </div>
+    <div class="prio-col">
+      <p class="p-head">P2 · 观察/中长期</p>
+      <div class="p-item">CodeGraph 代码重目录试点</div>
+      <div class="p-item">灵感沉淀观察（课程/睡前故事/免费VM/量化书）</div>
+      <div class="p-item">5K 显示器选购（优派/三星/Apple）</div>
+    </div>
+  </div>
+
+  <p class="quote">这一天是「体系收口 + 内容爆发」双满负荷日。方法论变资产、AI 安全成护城河、克制与决断守住资产库——唯一要管的，是待办别跑得比收口快。</p>
+
+  <div class="foot"><span>WorkBuddy · hanzi-infographic-skill（墨方点睛 · 自研）</span><span>2026.07.23</span></div>
+</div>
+</section></main></body></html>
