@@ -2,7 +2,7 @@
 name: hanzi-infographic-skill
 description: 生成中文数据密集型信息图（复盘全景图 / 工作台账 / 知识卡 / 文章导读长图 / 项目看板）。采用 HTML+CSS
   确定性渲染为高清 PNG（中文 100% 清晰），融合 baoyu(MIT) 布局×风格模式语言、ian-xiaohei(MIT)
-  视觉IP与认知锚点配图法、以及海哥《中文优化设计规范包》（自有）。当用户要"复盘全景图 / 信息图 / 中文长图 / 可视化 / 知识卡 / 工作台账图 /
+  视觉IP与认知锚点配图法、以及《中文优化设计规范包》（作者自有）。当用户要"复盘全景图 / 信息图 / 中文长图 / 可视化 / 知识卡 / 工作台账图 /
   公众号文章出图 / 高密度信息大图"时使用。
 version: 0.2.1
 metadata:
@@ -29,13 +29,13 @@ disable: true
 | baoyu-infographic | **MIT** | "布局×风格双库可组合"模式语言思想 + 21 布局 / 22 风格词汇 | 不复制其生图 prompt；全部用可渲染 HTML 模板实现，描述中文原创重写 |
 | ian-xiaohei-illustrations（小黑） | **MIT** | 视觉 IP 体系 + 认知锚点配图策略 + 四色语义 + 美学门控方法论 | **不复用"小黑"形象**，自创"墨方"IP（见 `references/ip-and-anchors.md`） |
 | guizang-social-card-skill | **AGPL-3.0** | 只学"HTML 模板 → Playwright → PNG 确定性渲染"工程思想 | 代码 **100% 自写**，不 import、不复制其任何源文件 |
-| 《中文优化设计规范包》 | 海哥自有 | 9 配色 + 8 风格 + 中文硬约束 + 100 分门控（地基） | 直接采用，见 `references/styles.md` |
+| 《中文优化设计规范包》 | 作者自有 | 9 配色 + 8 风格 + 中文硬约束 + 100 分门控（地基） | 直接采用，见 `references/styles.md` |
 
-> 已上架 SkillHub（`skillhub.json` 含 credits 声明）；SKILL.md 与 README 已注明："布局×风格模式语言借鉴 baoyu(MIT)、视觉IP/认知锚点借鉴 ian-xiaohei(MIT)、中文规范包为海哥自有"，并附 MIT 版权声明。
+> 已上架 SkillHub（`skillhub.json` 含 credits 声明）；SKILL.md 与 README 已注明："布局×风格模式语言借鉴 baoyu(MIT)、视觉IP/认知锚点借鉴 ian-xiaohei(MIT)、中文规范包为作者自有"，并附 MIT 版权声明。
 
 ## 铁律（不可绕过）
 
-1. **全面、不省内容**：图必须覆盖源文档全部板块，宁可增加高度也不得删减数据（对齐"每日复盘全景图"自动化的硬约束）。验收脚本会比对"板块数"，缺板块直接 FAIL。
+1. **全面、不省内容**：图必须覆盖源文档全部板块，宁可增加高度也不得删减数据（来自复盘全景图场景的硬约束）。验收脚本会比对"板块数"，缺板块直接 FAIL。
 2. **中文必须清晰**：正文 ≥ 24px（规范包硬约束），渲染前 `document.fonts.ready` 必须 await；不依赖网盘字体，缺字明确失败而非出缺字图。
 3. **不照搬他人 IP 形象**：墨方必须自创，不得画出小黑（黑豆+白点眼+细腿）的样子。
 4. **AGPL 只学思想**：guizang 的代码一行不搬。
@@ -97,7 +97,7 @@ node scripts/aesthetic-radar.cjs <task>/index.html [--json <task>/radar.json]
 - **< 90 分阻止交付**（100 分门控速记见 qa-checklist）。
 
 ### 8. 交付
-输出 PNG 路径 + 一句话说明（布局×风格×板块数）。如自动化的执行内核，则此步由自动化调用完成。
+输出 PNG 路径 + 一句话说明（布局×风格×板块数）。可由外部编排脚本调用完成。
 
 ## 自带资产
 
@@ -113,6 +113,3 @@ node scripts/aesthetic-radar.cjs <task>/index.html [--json <task>/radar.json]
 - `scripts/aesthetic-radar.cjs` — 5 维美学评审雷达（源自 huashu-design，美学门控自动化，<90 阻止交付）
 - `references/layouts.md` / `styles.md` / `ip-and-anchors.md` / `qa-checklist.md` / `aesthetic-radar.md`
 
-## 与"每日复盘全景图"自动化的关系
-
-海哥已建 `automation-1784863985674`（每天 00:10 生成前一天复盘全景图）。**本 skill 已接入为该自动化的执行内核**——自动化 prompt 已改为复制 `daily-review-panorama.html` 模板、填真实复盘、调用 `render.cjs`+`verify.cjs`，质量门控由 skill 兜底（全面性铁律防回归）。

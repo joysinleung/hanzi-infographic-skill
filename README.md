@@ -1,7 +1,7 @@
 # hanzi-infographic-skill
 
 > 生成**中文数据密集型信息图**（复盘全景图 / 工作台账 / 知识卡 / 项目看板）。
-> 采用 HTML+CSS 确定性渲染为高清 PNG（中文 100% 清晰），融合 baoyu(MIT) 布局×风格模式语言、ian-xiaohei(MIT) 视觉 IP 与认知锚点配图法、以及海哥《中文优化设计规范包》（自有）。
+> 采用 HTML+CSS 确定性渲染为高清 PNG（中文 100% 清晰），融合 baoyu(MIT) 布局×风格模式语言、ian-xiaohei(MIT) 视觉 IP 与认知锚点配图法、以及《中文优化设计规范包》（作者自有）。
 
 ## 为什么需要它
 
@@ -31,7 +31,7 @@ guizang（社交小卡）、baoyu（生图）、小黑（正文单图）都不�
 | baoyu-infographic | **MIT** | "布局×风格双库可组合"模式语言思想 | 不复制生图 prompt；全部用可渲染 HTML 模板实现，描述中文原创重写 |
 | ian-xiaohei-illustrations（小黑） | **MIT** | 视觉 IP 体系 + 认知锚点配图策略 + 四色语义 + 美学门控 | **不复用"小黑"形象**，自创"墨方"IP |
 | guizang-social-card-skill | **AGPL-3.0** | 只学"HTML → Playwright → PNG 确定性渲染"工程思想 | 代码 100% 自写，不 import、不复制源文件 |
-| 《中文优化设计规范包》 | 海哥自有 | 9 配色 + 8 风格 + 中文硬约束 + 100 分门控 | 直接采用 |
+| 《中文优化设计规范包》 | 作者自有 | 9 配色 + 8 风格 + 中文硬约束 + 100 分门控 | 直接采用 |
 
 ## 铁律
 
@@ -78,10 +78,6 @@ hanzi-infographic-skill/
     ├── ip-and-anchors.md        # 墨方 IP + 认知锚点策略
     └── qa-checklist.md          # 技术+美学门控
 ```
-
-## 与「每日复盘全景图」自动化的关系
-
-海哥已建 `automation-1784863985674`（每天 00:10 生成前一天复盘全景图）。本 skill 即该自动化的执行内核——自动化只需调用 `render.cjs` + `verify.cjs`，质量门控由 skill 兜底。
 
 ## License
 

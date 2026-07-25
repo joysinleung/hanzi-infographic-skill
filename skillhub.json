@@ -1,8 +1,8 @@
 {
   "name": "hanzi-infographic-skill",
   "displayName": "中文数据密集型信息图",
-  "version": "0.1.0",
-  "description": "生成中文数据密集型信息图（复盘全景图/工作台账/知识卡/项目看板）。HTML+CSS 确定性渲染为高清 PNG，中文 100% 清晰。融合 baoyu(MIT) 布局×风格模式语言、ian-xiaohei(MIT) 视觉IP与认知锚点配图法、海哥《中文优化设计规范包》（自有）。风格可选、自带墨方 IP、带视觉+美学双门控。",
+  "version": "0.1.1",
+  "description": "生成中文数据密集型信息图（复盘全景图/工作台账/知识卡/项目看板）。HTML+CSS 确定性渲染为高清 PNG，中文 100% 清晰。融合 baoyu(MIT) 布局×风格模式语言、ian-xiaohei(MIT) 视觉IP与认知锚点配图法、《中文优化设计规范包》（作者自有）。风格可选、自带墨方 IP、带视觉+美学双门控。",
   "author": "joysinleung",
   "homepage": "https://github.com/joysinleung/hanzi-infographic-skill",
   "license": "MIT",
@@ -12,6 +12,6 @@
     "baoyu-infographic": "MIT（布局×风格模式语言思想）",
     "ian-xiaohei-illustrations": "MIT（视觉IP/认知锚点/四色语义/美学门控方法论）",
     "guizang-social-card-skill": "AGPL-3.0（仅学确定性渲染工程思想，代码100%自写）",
-    "中文优化设计规范包": "海哥自有（9配色+8风格+中文硬约束+100分门控）"
+    "中文优化设计规范包": "作者自有（9配色+8风格+中文硬约束+100分门控）"
   }
 }

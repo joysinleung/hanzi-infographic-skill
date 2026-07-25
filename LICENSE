@@ -25,5 +25,5 @@ SOFTWARE.
 借鉴声明（合规）：
 - 布局×风格模式语言思想 借鉴 baoyu-infographic（MIT）
 - 视觉 IP 体系 / 认知锚点配图策略 / 四色语义 / 美学门控方法论 借鉴 ian-xiaohei-illustrations（MIT）
-- 中文规范（9 配色 + 8 风格 + 中文硬约束 + 100 分门控）为海哥《中文优化设计规范包》（自有）
+- 中文规范（9 配色 + 8 风格 + 中文硬约束 + 100 分门控）为《中文优化设计规范包》（作者自有）
 - "HTML → Playwright → PNG 确定性渲染"工程思想 借鉴 guizang-social-card-skill（AGPL-3.0），本仓库代码 100% 自写，未复制其源文件
