@@ -8,7 +8,7 @@ version: 0.2.1
 metadata:
   openclaw:
     homepage: https://github.com/joysinleung/hanzi-infographic-skill
-disable: true
+disable-model-invocation: true
 ---
 
 # 中文数据密集型信息图 Skill（hanzi-infographic-skill）
